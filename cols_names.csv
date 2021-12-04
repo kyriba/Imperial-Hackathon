@@ -1,0 +1,94 @@
+IM column,D365/ERP fields,Business rules / Comments,Position in CSV Kyriba file
+,,,(for TR and/or  IN records)
+Transaction type,fixed value “VendorPayment” or “IntercoPayment” (for Vendor Journal),if Account type is vendor and there is no trading relationship between company and vendor then the transaction type is “VendorPayment”,N/A
+,,If Account type is vendor and there is a trading relationship between company and vendor then the transaction type is “IntercoPayment”,
+,Or fixed value “CustomerPayment” (for Customer Journal),If Account type is customer then the transaction type is “CustomerPayment”,
+,,Used by Integration tool in the API call to split records per transaction type in separate files,
+Company accounts ID,“Company accounts ID”,,N/A
+Key guid,“Key guid”,Used by Integration tool in the API call to update correct record in the IM,N/A
+Record Type,"""TR""",Apply following mappings rule:  ,TR_1
+,,"- value ""TR"" for Transaction detail ",
+Transaction code,“Method of Payment” ,A mapping table can be used in Kyriba. ,TR_2
+Reference,“Record Id”,,TR_3
+Debit/Credit account,Concatenation of “Company accounts ID” + “Bank account ID”,A mapping table is used in Kyriba.,TR_4
+,,See 6.1.1.3.1. Account mapping table,
+Payment reference,“Payment reference”,Not used,N/A
+Payment status,“Payment status”,Updated by SCDF when pulling of records and when bank status update,N/A
+Kyriba details,Custom field “Kyriba details”,Updated by SCDF when pulling of records and when bank status update,N/A
+Transaction currency,“Currency”,,TR_5
+Transaction amount,“Debit” (Vendor journal) or,,TR_6
+,“Credit” (Customer journal),,
+Date,“Date” of Journal line,,TR_7
+Reason 1,“Purpose text”,,TR_8
+Fee assessment,N/A,Not mapped - available for personalized mapping,TR_9
+Third party.Description,“Name” of Vendor or Customer,,TR_10
+Third party.Description 2,N/A,Not mapped - available for personalized mapping,TR_11
+Third party.Identifier value,Primary “Registration Number” of Vendor or Customer Registration ID,First 20 characters,TR_12
+Third party.Corp Id code,N/A,Not mapped - available for personalized mapping,TR_13
+Third party.Address 1,“Street” of Vendor or Customer primary Address,First 70 characters,TR_14
+Third party.Address 2,“Street” of Vendor or Customer primary Address,From character 71 to 140,TR_15
+Third party.City,“City” of Vendor or Customer primary Address,First 35 characters,TR_16
+Third party.ZIP,“ZIP/postal code” of Vendor or Customer primary Address,First 9 characters,TR_17
+Third party.Province code,“State” of Vendor or Customer primary Address,,TR_18
+Third party.Country code,“Country/Region” of Vendor or Customer primary Address,In ISO code,TR_19
+Third party Contact.E-mail,“Email Address“ of Vendor or Customer Contact Information,"First 70 characters of the primary email Address for type ""Email address""",TR_20
+Third party bank.Description,“Name” of Vendor or Customer Bank Account,First 35 characters,TR_21
+Third party bank.BIC Code,“SWIFT code” of Vendor or Customer Bank Account,,TR_22
+Third party bank.Identifier value,“Routing number” of Vendor or Customer Bank Account,,TR_23
+Third party bank.Address 1,“Street” of Address of Vendor or Customer Bank account,"First 70 characters of ""Street""",TR_24
+Third party bank.Address 2,“Street” of Address of Vendor or Customer Bank account,"From position 71 to 140 of ""Street""",TR_25
+Third party bank.City,“City” of Address of Vendor or Customer Bank account,"First 35 characters of ""City""",TR_26
+Third party bank.ZIP,“ZIP/Postal code” of Address of Vendor or Customer Bank account,"First 9 characters of ""ZIP/Postal code""",TR_27
+Third party bank.Province code,“State” of Address of Vendor or Customer Bank account,"Extract value of ""State""",TR_28
+Third party bank.Country code,“Country/Region” of Address of Vendor or Customer Bank account,In ISO code,TR_29
+Third party bank.Currency,“Currency” of Vendor or Customer Bank Account,,TR_30
+Third party bank.Account Id 1,“IBAN” or “Bank account number” of Vendor or Customer Bank Account,"If ""IBAN"" is not empty then extract the first 35 characters of ""IBAN""",TR_31
+,,"else extract the first 35 characters of ""Bank account number""",
+Third party bank.Account nature,“Bank account type” of Vendor or Customer Bank Account,Apply following mappings rule:,TR_32
+,,"- if ""Checking account"" then fixed value ""01""",
+,,"- if ""Savings account"" then fixed value ""02""",
+Correspondent.BIC,N/A,Not mapped - available for personalized mapping,TR_33
+Correspondent.Description,N/A,Not mapped - available for personalized mapping,TR_34
+Correspondent.Country code,N/A,Not mapped - available for personalized mapping,TR_35
+Correspondent.Identifier value,N/A,Not mapped - available for personalized mapping,TR_36
+Correspondent.Account,N/A,Not mapped - available for personalized mapping,TR_37
+Free text 1,N/A,Not mapped - available for personalized mapping,TR_38
+Free text 2,N/A,Not mapped - available for personalized mapping,TR_39
+Free text 3,N/A,Not mapped - available for personalized mapping,TR_40
+Free text 4,”Voucher” of journal line,,TR_41
+Free text 5,”Note” of journal line,"First 70 characters of ""Note""",TR_42
+Free text 6,”PaymentID” of journal line,"First 70 characters of ""PaymentID""",TR_43
+Free text 7,N/A,Not mapped - available for personalized mapping,TR_44
+Free text 8,N/A,Not mapped - available for personalized mapping,TR_45
+Free text 9,N/A,Not mapped - available for personalized mapping,TR_46
+Free text 10,N/A,Not mapped - available for personalized mapping,TR_47
+Transfer/Remittance identifier 1,“Batch Number” of Vendor or Customer journal,,TR_48
+Check number,“Check number” of journal line,Only used for “Check payment”,TR_49
+UMR,”MandateID” of Customer Direct debit mandate,Only used for “Sepa direct debit”,TR_50
+SCI,“Direct Debit Id” of Bank Account,Only used for “Sepa direct debit”,TR_51
+Mandate date,“Signature date” of Customer Direct debit mandate,Only used for “Sepa direct debit”,TR_52
+Sequence type,“Payment Frequency” of ,Only used for “Sepa direct debit”. Apply following mappings rule:,TR_53
+, of Customer Direct debit mandate,"- ""Recurring"" then fixed value ""R""",
+,,"- ""One-time"" then fixed value ""O""",
+Free text field 15,N/A,Available additional field for customization,TR_54
+Link ID,"""ERP instance""",For Dynamics would be “D365” value provided by D365,TR_55
+Record Invoice type,"""IN""","Apply following mappings rule:  '
+- value ""IN"" for Invoice(s) detail ",IN_1
+Type,,Defaulted from the invoice amount.,IN_2
+,,"- ""0"" for Disbursement (amount to pay)",
+,,"- ""1"" for Collection (credit note) (amount to receive)",
+Internal reference,“Invoice number”  or “Voucher” of invoice,"If 'Invoice""' exists then extract it",IN_3
+,,"Else extract value of ""Voucher""",
+Beneficiary reference,“Invoice number”  or “Voucher” of invoice,"If 'Invoice""' exists then extract it",IN_4
+,,"Else extract value of ""Voucher""",
+Invoice date,“Date” of invoice,Most accounts payable systems default to the current date as the invoice date and combines this with the payment terms stored in the customer master file to arrive at a calculated due date. Since the current date is always later than the invoice date this means that the company will be paid late.,IN_5
+Due date,“Due date” of invoice,Depends on Client payment terms,IN_6
+Paid amount,“Amount settle” of invoice,,IN_7
+Billed amount,“Invoice amount” of invoice,,IN_8
+Free text 1,“Voucher” of invoice,,IN_9
+Free text 2,For customization,Not mapped - available for personalized mapping,IN_10
+Free text 3,For customization,Not mapped - available for personalized mapping,IN_11
+Free text 4,For customization,Not mapped - available for personalized mapping,IN_12
+Free text 5,For customization,Not mapped - available for personalized mapping,IN_13
+Created by,N/A,User id who has created the record in the IM,N/A
+Created date and time,N/A,Timestamp when record has been created in the IM,N/A
